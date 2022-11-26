@@ -1,21 +1,13 @@
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  VStack,
-  Grid,
-  theme,
-} from "@chakra-ui/react";
+import { ChakraProvider, Box, VStack, Grid, theme } from "@chakra-ui/react";
 import { Footer, Header } from "./components/layouts";
+import { Profile } from "./components/pages";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Box fontSize="xl">
+    <Box>
       <Grid minH="100vh" p={3}>
         <Header />
-        <VStack spacing={8}>
-          <Text>Hello World</Text>
-        </VStack>
+        <Profile />
       </Grid>
       <Footer />
     </Box>

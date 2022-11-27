@@ -1,4 +1,4 @@
-import { Container } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import { FC } from "react";
 
 interface Props {
@@ -12,8 +12,8 @@ const styles = {
 
 export const PageContainer: FC<Props> = ({ bg, children }) => {
   return (
-    <div style={styles}>
-      <Container bg={bg}>{children}</Container>
-    </div>
+    <Box style={styles} bg={bg}>
+      <Container maxW="container.lg">{children}</Container>
+    </Box>
   );
 };

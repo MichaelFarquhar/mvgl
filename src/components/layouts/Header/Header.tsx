@@ -1,19 +1,14 @@
-import {
-  Button,
-  Flex,
-  Stack,
-  Text,
-  Box,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { FaUser, FaUserPlus } from "react-icons/fa";
+import { Flex, Stack, Text, Box, useColorModeValue } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { PageContainer } from "../PageContainer/PageContainer";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
+import { HeaderNavbar } from "./HeaderNavbar";
+import { HeaderNavbarAuthed } from "./HeaderNavbarAuthed";
+
+const authed = false;
 
 export const Header = () => {
   const logoColor = useColorModeValue("teal", "teal.200");
-
   return (
     <Box mb={6}>
       <PageContainer>
@@ -33,22 +28,10 @@ export const Header = () => {
             </Text>
           </Link>
           <Stack direction="row" spacing={4} align="center">
-            <Button
-              size="sm"
-              leftIcon={<FaUser />}
-              colorScheme="teal"
-              variant="solid"
-            >
-              Login
-            </Button>
-            <Button
-              size="sm"
-              leftIcon={<FaUserPlus />}
-              colorScheme="pink"
-              variant="solid"
-            >
-              Register
-            </Button>
+            {
+              /* Show different headers for authed/non-authed users */
+              !authed ? <HeaderNavbar /> : <HeaderNavbarAuthed />
+            }
             <ColorModeSwitcher />
           </Stack>
         </Flex>

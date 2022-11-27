@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useState, KeyboardEvent, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { GameSearchItem } from "./GameSearchItem";
 

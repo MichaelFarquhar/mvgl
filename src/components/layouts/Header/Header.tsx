@@ -7,6 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FaUser, FaUserPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { PageContainer } from "../PageContainer/PageContainer";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 
@@ -17,18 +18,20 @@ export const Header = () => {
     <Box mb={6}>
       <PageContainer>
         <Flex justify={"space-between"} align="center" py={6}>
-          <Text
-            fontSize="5xl"
-            fontWeight="bold"
-            lineHeight={1}
-            color={logoColor}
-            fontFamily="Aldrich, sans-serif"
-            borderBottom="3px solid"
-            borderColor={logoColor}
-            pb={1}
-          >
-            MVGL
-          </Text>
+          <Link to={"/"}>
+            <Text
+              fontSize="5xl"
+              fontWeight="bold"
+              lineHeight={1}
+              color={logoColor}
+              fontFamily="Aldrich, sans-serif"
+              borderBottom="3px solid"
+              borderColor={logoColor}
+              pb={1}
+            >
+              MVGL
+            </Text>
+          </Link>
           <Stack direction="row" spacing={4} align="center">
             <Button
               size="sm"

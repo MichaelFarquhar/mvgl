@@ -9,23 +9,29 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { GameSearchItem } from "./GameSearchItem";
 
 import jsonData from "../../../GameResult.json";
 import { PageContainer } from "../../layouts";
+import { useSearchParams } from "react-router-dom";
 console.log(jsonData);
 
 export const GameSearch = () => {
-  const [input, setInput] = useState("");
   const [searchResults, setSearchResults] = useState<Object[]>(jsonData);
 
-  const search = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") return;
+  const [queryParams, setQueryParams] = useSearchParams();
+  const queryString = queryParams.get("q");
 
+  // Performs searches based on query string in URL
+  useEffect(() => {
+    if (queryString !== "" && queryString !== null) console.log("running api");
+  }, [queryString]);
+
+  const search = () => {
     const params = {
-      search: input,
+      search: queryString,
       key: process.env.REACT_APP_API_KEY,
     };
 
@@ -54,8 +60,10 @@ export const GameSearch = () => {
               name="search"
               id="search"
               placeholder="Enter game title"
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => search(e)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter")
+                  setQueryParams({ q: e.currentTarget.value });
+              }}
             />
           </InputGroup>
           <VStack

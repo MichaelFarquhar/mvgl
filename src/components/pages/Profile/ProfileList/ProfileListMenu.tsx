@@ -1,23 +1,25 @@
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, useDisclosure } from "@chakra-ui/react";
 import { FC } from "react";
-import { FaPlusCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
+import { GameSearchModal } from "../../GameSearch/GameSearchModal";
 
 interface Props {}
 
 export const ProfileListMenu: FC<Props> = (props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex justify={"end"} w="100%">
-      <Link to={"/games/search"}>
-        <Button
-          leftIcon={<FaPlusCircle />}
-          colorScheme="teal"
-          variant="solid"
-          size="sm"
-        >
-          Add Game
-        </Button>
-      </Link>
+      <Button
+        leftIcon={<FaSearch />}
+        colorScheme="teal"
+        variant="solid"
+        size="sm"
+        onClick={onOpen}
+      >
+        Search games
+      </Button>
+      <GameSearchModal isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 };

@@ -66,8 +66,8 @@ export const GameSearch = () => {
             <Grid templateColumns="repeat(3, 1fr)" gap={6}>
               {searchResults &&
                 searchResults?.map((item, index) => (
-                  <GridItem>
-                    <GameSearchItem item={item} key={index} />
+                  <GridItem key={index}>
+                    <GameSearchItem item={item} />
                   </GridItem>
                 ))}
             </Grid>

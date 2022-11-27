@@ -4,10 +4,7 @@ import {
   CardBody,
   Heading,
   Stack,
-  Text,
-  CardFooter,
   Button,
-  Flex,
   Badge,
 } from "@chakra-ui/react";
 import { FC } from "react";

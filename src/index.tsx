@@ -3,6 +3,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { App } from "./App";
+import { BaseLayout } from "./components/layouts";
+import { GameSearch } from "./components/pages";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
 
@@ -15,7 +17,10 @@ root.render(
     <ColorModeScript />
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<BaseLayout />}>
+          <Route index element={<App />} />
+          <Route path="/games/search" element={<GameSearch />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

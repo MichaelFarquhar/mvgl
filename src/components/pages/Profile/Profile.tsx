@@ -1,5 +1,4 @@
-import { Card, VStack } from "@chakra-ui/react";
-import { PageContainer } from "../../layouts";
+import { VStack } from "@chakra-ui/react";
 import { ProfileList } from "./ProfileList/ProfileList";
 
 export const Profile = () => {

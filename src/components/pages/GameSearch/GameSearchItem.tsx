@@ -6,14 +6,18 @@ import {
   Stack,
   Button,
   Badge,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { FC } from "react";
+import { AddToListModal } from "../../modals/AddToListModal";
 
 interface Props {
   item: any;
 }
 
 export const GameSearchItem: FC<Props> = ({ item }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Card
       direction={{ base: "column" }}
@@ -39,9 +43,10 @@ export const GameSearchItem: FC<Props> = ({ item }) => {
               </Badge>
             ))}
           </Stack>
-          <Button variant="solid" colorScheme="teal" mt={6}>
+          <Button variant="solid" colorScheme="teal" mt={6} onClick={onOpen}>
             Add To List
           </Button>
+          <AddToListModal isOpen={isOpen} onClose={onClose} />
         </CardBody>
       </Stack>
     </Card>

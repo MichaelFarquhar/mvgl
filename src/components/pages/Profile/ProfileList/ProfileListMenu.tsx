@@ -1,7 +1,7 @@
 import { Button, Flex, useDisclosure } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaSearch } from "react-icons/fa";
-import { GameSearchModal } from "../../GameSearch/GameSearchModal";
+import { GameSearchModal } from "../../../modals/GameSearchModal";
 
 interface Props {}
 

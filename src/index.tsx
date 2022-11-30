@@ -1,13 +1,14 @@
-import { ColorModeScript } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript, theme } from "@chakra-ui/react";
 import * as ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { App } from "./App";
 import { BaseLayout } from "./components/layouts";
-import { GameSearch } from "./components/pages";
+import { GameSearch, Login, Register } from "./components/pages";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
 import { store } from "./state/store";
+import "@fontsource/aldrich";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");
@@ -16,13 +17,17 @@ const root = ReactDOM.createRoot(container);
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <ColorModeScript />
-      <Routes>
-        <Route path="/" element={<BaseLayout />}>
-          <Route index element={<App />} />
-          <Route path="/games/search" element={<GameSearch />} />
-        </Route>
-      </Routes>
+      <ChakraProvider theme={theme}>
+        <ColorModeScript />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<BaseLayout />}>
+            <Route index element={<App />} />
+            <Route path="/games/search" element={<GameSearch />} />
+          </Route>
+        </Routes>
+      </ChakraProvider>
     </Provider>
   </BrowserRouter>
 );

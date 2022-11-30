@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import { PageContainer } from "../PageContainer/PageContainer";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { HeaderNavbar } from "./HeaderNavbar";
-import { HeaderNavbarAuthed } from "./HeaderNavbarAuthed";
-
-const authed = false;
 
 export const Header = () => {
   const logoColor = useColorModeValue("teal", "teal.200");
@@ -28,10 +25,7 @@ export const Header = () => {
             </Text>
           </Link>
           <Stack direction="row" spacing={4} align="center">
-            {
-              /* Show different headers for authed/non-authed users */
-              !authed ? <HeaderNavbar /> : <HeaderNavbarAuthed />
-            }
+            <HeaderNavbar />
             <ColorModeSwitcher />
           </Stack>
         </Flex>

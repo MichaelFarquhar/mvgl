@@ -7,18 +7,30 @@ import {
   Button,
   Link,
   useConst,
+  MenuGroup,
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
-import { FC } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { FaChevronDown, FaSignOutAlt } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../state/store";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../firebase/firebase-config";
 
-interface Props {}
-
-export const HeaderNavbar: FC<Props> = () => {
+export const HeaderNavbar = () => {
   const navbarRoutes = useConst([
     { label: "Home", route: "/" },
     { label: "Game Search", route: "/games/search" },
   ]);
+
+  const email = useSelector((state: RootState) => state.user.user);
+
+  // Sign out user and go to login page
+  const navigate = useNavigate();
+  const logout = () => {
+    signOut(auth).then(() => {
+      navigate("/login");
+    });
+  };
 
   return (
     <Stack direction="row" spacing={16} align="center">
@@ -42,10 +54,12 @@ export const HeaderNavbar: FC<Props> = () => {
         <MenuButton as={Button} rightIcon={<FaChevronDown />}>
           Account
         </MenuButton>
-        <MenuList py={0} minW="0" w={"150px"}>
-          <MenuItem icon={<FaSignOutAlt />} borderRadius="5px">
-            Logout
-          </MenuItem>
+        <MenuList>
+          <MenuGroup title={email}>
+            <MenuItem icon={<FaSignOutAlt />} onClick={logout}>
+              Logout
+            </MenuItem>
+          </MenuGroup>
         </MenuList>
       </Menu>
     </Stack>

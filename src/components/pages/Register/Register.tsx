@@ -11,6 +11,7 @@ import {
   Flex,
   InputRightElement,
   IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
@@ -21,8 +22,13 @@ import {
   FaKey,
 } from "react-icons/fa";
 import { AuthLayout } from "../../layouts";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { FormAlert } from "../../FormAlert";
+import { useFirebaseError } from "../../../firebase/useFirebaseHook";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebase/firebase-config";
+import { FirebaseError } from "firebase/app";
 
 interface FormInputs {
   email: string;
@@ -31,15 +37,43 @@ interface FormInputs {
 }
 
 export const Register = () => {
+  const navigate = useNavigate();
+  const [firebaseError, setFirebaseError] = useFirebaseError("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
+
+  const toast = useToast();
+  const showToast = () => {
+    toast({
+      title: "Account created.",
+      description: "You have been logged in automatically.",
+      status: "success",
+      duration: 4000,
+      isClosable: true,
+    });
+  };
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    watch,
+    formState: { errors },
   } = useForm<FormInputs>();
 
-  const onSubmit = (data: FormInputs) => console.log(data);
+  const passwordValue = watch("password");
+
+  // On form submit, attempt register user and send them to profile
+  const onSubmit = (data: FormInputs) => {
+    setRegisterLoading(true);
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then(() => {
+        navigate("/");
+        setRegisterLoading(false);
+        showToast();
+      })
+      .catch((err: FirebaseError) => setFirebaseError(err));
+  };
 
   return (
     <AuthLayout>
@@ -88,6 +122,10 @@ export const Register = () => {
                 errorBorderColor="crimson"
                 {...register("password", {
                   required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters.",
+                  },
                 })}
               />
               <InputRightElement mr={2}>
@@ -123,7 +161,12 @@ export const Register = () => {
                 placeholder="••••••"
                 errorBorderColor="crimson"
                 {...register("confirmPassword", {
-                  required: "Password Confirmation is required",
+                  required: "Password is required",
+                  validate: (value) => {
+                    return (
+                      value === passwordValue || "The passwords do not match."
+                    );
+                  },
                 })}
               />
               <InputRightElement mr={2}>
@@ -140,25 +183,33 @@ export const Register = () => {
               </InputRightElement>
             </InputGroup>
             <FormErrorMessage>
-              {!!errors.password && errors.password.message}
+              {!!errors.confirmPassword && errors.confirmPassword.message}
             </FormErrorMessage>
           </FormControl>
         </Stack>
-        <Flex gap={4} alignItems="center" mt={10}>
-          <Button colorScheme="teal" isLoading={isSubmitting} type="submit">
-            Register
-          </Button>
-          <Button
-            leftIcon={<FaArrowLeft />}
-            colorScheme="gray"
-            isLoading={isSubmitting}
-            type="submit"
-            as={RouterLink}
-            to="/login"
-          >
-            Back to Login
-          </Button>
-        </Flex>
+        <Stack mt={10}>
+          <FormAlert alert={firebaseError} />
+          <Flex gap={4} alignItems="center">
+            <Button
+              colorScheme="teal"
+              isLoading={registerLoading}
+              type="submit"
+              loadingText="Submitting"
+            >
+              Register
+            </Button>
+            <Button
+              leftIcon={<FaArrowLeft />}
+              colorScheme="gray"
+              disabled={registerLoading}
+              type="submit"
+              as={RouterLink}
+              to="/login"
+            >
+              Back to Login
+            </Button>
+          </Flex>
+        </Stack>
       </form>
     </AuthLayout>
   );

@@ -6,12 +6,29 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/firebase-config";
 
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
 
 export const AuthLayout = ({ children }: Props) => {
+  const navigate = useNavigate();
+
+  // If logged in, skip login form and go to profile
+  useEffect(() => {
+    const onAuth = onAuthStateChanged(auth, (user: User | null) => {
+      if (user) {
+        navigate("/");
+      }
+    });
+
+    return onAuth;
+  });
+
   const logoColor = useColorModeValue("teal", "teal.200");
 
   return (

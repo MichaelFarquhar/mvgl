@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Stack,
   Text,
@@ -14,6 +15,11 @@ import { useForm } from "react-hook-form";
 import { FaEnvelope, FaKey } from "react-icons/fa";
 import { AuthLayout } from "../../layouts";
 import { Link as RouterLink } from "react-router-dom";
+import { FormAlert } from "../../FormAlert";
+import { useFirebaseError } from "../../../firebase/useFirebaseHook";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebase/firebase-config";
+import { FirebaseError } from "firebase/app";
 
 interface FormInputs {
   email: string;
@@ -21,13 +27,25 @@ interface FormInputs {
 }
 
 export const Login = () => {
+  const [firebaseError, setFirebaseError] = useFirebaseError("");
+  const [loginLoading, setLoginLoading] = useState(false);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormInputs>();
 
-  const onSubmit = (data: FormInputs) => console.log(data);
+  // On form submit, attempt to sign in user
+  const onSubmit = (data: FormInputs) => {
+    setLoginLoading(true);
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then(() => {
+        setLoginLoading(false);
+      })
+      .catch((error: FirebaseError) => {
+        setFirebaseError(error);
+      });
+  };
 
   return (
     <AuthLayout>
@@ -84,20 +102,28 @@ export const Login = () => {
             </FormErrorMessage>
           </FormControl>
         </Stack>
-        <Flex gap={4} alignItems="center" mt={10}>
-          <Button colorScheme="teal" isLoading={isSubmitting} type="submit">
-            Login
-          </Button>
-          <Button
-            colorScheme="pink"
-            isLoading={isSubmitting}
-            type="submit"
-            as={RouterLink}
-            to="/register"
-          >
-            Register
-          </Button>
-        </Flex>
+        <Stack mt={10}>
+          <FormAlert alert={firebaseError} />
+          <Flex gap={4} alignItems="center">
+            <Button
+              colorScheme="teal"
+              isLoading={loginLoading}
+              loadingText="Logging In"
+              type="submit"
+            >
+              Login
+            </Button>
+            <Button
+              colorScheme="pink"
+              disabled={loginLoading}
+              type="submit"
+              as={RouterLink}
+              to="/register"
+            >
+              Register
+            </Button>
+          </Flex>
+        </Stack>
       </form>
     </AuthLayout>
   );

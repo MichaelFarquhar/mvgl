@@ -12,10 +12,11 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase-config";
 
 interface Props {
+  title: string;
   children: JSX.Element | JSX.Element[];
 }
 
-export const AuthLayout = ({ children }: Props) => {
+export const AuthLayout = ({ title, children }: Props) => {
   const navigate = useNavigate();
 
   // If logged in, skip login form and go to profile
@@ -34,6 +35,7 @@ export const AuthLayout = ({ children }: Props) => {
   return (
     <Box w="full" h="100vh" display="grid" placeItems="center" bg="gray.100">
       <Flex flexDirection={"column"} alignItems="center">
+        {/* Header */}
         <Text
           fontSize="6xl"
           fontWeight="bold"
@@ -48,8 +50,15 @@ export const AuthLayout = ({ children }: Props) => {
         >
           MVGL
         </Text>
+
+        {/* Content Card */}
         <Card px={8} py={6} mx={4} borderRadius="2xl" shadow="xl" bg="white">
-          <CardBody>{children}</CardBody>
+          <CardBody>
+            <Text fontSize="2xl" fontWeight="bold" mb={8}>
+              {title}
+            </Text>
+            {children}
+          </CardBody>
         </Card>
       </Flex>
     </Box>

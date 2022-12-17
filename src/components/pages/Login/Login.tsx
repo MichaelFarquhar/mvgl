@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Stack,
-  Text,
   FormLabel,
   FormControl,
   Input,
@@ -15,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { FaEnvelope, FaKey } from "react-icons/fa";
 import { AuthLayout } from "../../layouts";
 import { Link as RouterLink } from "react-router-dom";
-import { FormAlert } from "../../FormAlert";
+import { FormAlert } from "../../forms/FormAlert";
 import { useFirebaseError } from "../../../firebase/useFirebaseHook";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/firebase-config";
@@ -48,10 +47,7 @@ export const Login = () => {
   };
 
   return (
-    <AuthLayout>
-      <Text fontSize="2xl" fontWeight="bold" mb={8}>
-        Login
-      </Text>
+    <AuthLayout title="Login">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           {/* Email Field */}

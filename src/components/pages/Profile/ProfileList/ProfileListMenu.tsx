@@ -1,11 +1,8 @@
 import { Button, Flex, useDisclosure } from "@chakra-ui/react";
-import { FC } from "react";
 import { FaSearch } from "react-icons/fa";
 import { GameSearchModal } from "../../../modals/GameSearchModal";
 
-interface Props {}
-
-export const ProfileListMenu: FC<Props> = (props) => {
+export const ProfileListMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

@@ -1,6 +1,5 @@
 import {
   Stack,
-  Text,
   FormLabel,
   FormControl,
   Input,
@@ -9,26 +8,19 @@ import {
   InputGroup,
   InputLeftElement,
   Flex,
-  InputRightElement,
-  IconButton,
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import {
-  FaArrowLeft,
-  FaEnvelope,
-  FaEye,
-  FaEyeSlash,
-  FaKey,
-} from "react-icons/fa";
+import { FaArrowLeft, FaEnvelope, FaKey } from "react-icons/fa";
 import { AuthLayout } from "../../layouts";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FormAlert } from "../../FormAlert";
+import { FormAlert } from "../../forms/FormAlert";
 import { useFirebaseError } from "../../../firebase/useFirebaseHook";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/firebase-config";
 import { FirebaseError } from "firebase/app";
+import { ShowPasswordButton } from "../../forms/ShowPasswordButton";
 
 interface FormInputs {
   email: string;
@@ -76,10 +68,7 @@ export const Register = () => {
   };
 
   return (
-    <AuthLayout>
-      <Text fontSize="2xl" fontWeight="bold" mb={8}>
-        Register Account
-      </Text>
+    <AuthLayout title="Register Account">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           {/* Email Field */}
@@ -128,18 +117,11 @@ export const Register = () => {
                   },
                 })}
               />
-              <InputRightElement mr={2}>
-                <IconButton
-                  h="1.75rem"
-                  bg={"transparent"}
-                  size="md"
-                  onClick={() => setShowPassword(!showPassword)}
-                  icon={showPassword ? <FaEyeSlash /> : <FaEye />}
-                  aria-label="Show password"
-                >
-                  {showPassword ? "Hide" : "Show"}
-                </IconButton>
-              </InputRightElement>
+              <ShowPasswordButton
+                showPassword={showPassword}
+                onClick={() => setShowPassword(!showPassword)}
+                ariaLabel="Show password"
+              />
             </InputGroup>
             <FormErrorMessage>
               {!!errors.password && errors.password.message}
@@ -169,18 +151,11 @@ export const Register = () => {
                   },
                 })}
               />
-              <InputRightElement mr={2}>
-                <IconButton
-                  h="1.75rem"
-                  bg={"transparent"}
-                  size="md"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  icon={showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                  aria-label="Show confirmation password"
-                >
-                  {showConfirmPassword ? "Hide" : "Show"}
-                </IconButton>
-              </InputRightElement>
+              <ShowPasswordButton
+                showPassword={showConfirmPassword}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                ariaLabel="Show confirmation password"
+              />
             </InputGroup>
             <FormErrorMessage>
               {!!errors.confirmPassword && errors.confirmPassword.message}

@@ -1,13 +1,10 @@
 import { VStack } from "@chakra-ui/react";
-import { FC } from "react";
 import { ProfileListMenu } from "./ProfileListMenu";
 import { ProfileListTable } from "./ProfileListTable";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../state/store";
 
-interface Props {}
-
-export const ProfileList: FC<Props> = () => {
+export const ProfileList = () => {
   const list = useSelector((state: RootState) => state.list);
 
   return (
